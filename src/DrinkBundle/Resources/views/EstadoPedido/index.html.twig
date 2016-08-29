@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>EstadoPedido list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for estadoPedido in estadoPedido %}
+            <tr>
+                <td><a href="{{ path('estado_pedido_show', { 'id': estadoPedido.id }) }}">{{ estadoPedido.id }}</a></td>
+                <td>{{ estadoPedido.nombre }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('estado_pedido_show', { 'id': estadoPedido.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('estado_pedido_edit', { 'id': estadoPedido.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('estado_pedido_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

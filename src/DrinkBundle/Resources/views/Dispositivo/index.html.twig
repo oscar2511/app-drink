@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Dispositivo list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Uuid</th>
+                <th>Token</th>
+                <th>Esadministrador</th>
+                <th>Fechacreate</th>
+                <th>Fechaupdate</th>
+                <th>Establoqueado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dispositivo in dispositivos %}
+            <tr>
+                <td><a href="{{ path('dispositivo_show', { 'id': dispositivo.id }) }}">{{ dispositivo.id }}</a></td>
+                <td>{{ dispositivo.uuid }}</td>
+                <td>{{ dispositivo.token }}</td>
+                <td>{% if dispositivo.esAdministrador %}Yes{% else %}No{% endif %}</td>
+                <td>{% if dispositivo.fechaCreate %}{{ dispositivo.fechaCreate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if dispositivo.fechaUpdate %}{{ dispositivo.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if dispositivo.estaBloqueado %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('dispositivo_show', { 'id': dispositivo.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dispositivo_edit', { 'id': dispositivo.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('dispositivo_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,27 @@
+drink_dispositivo:
+    resource: "@DrinkBundle/Controller/DispositivoController.php"
+    type:     annotation
+
+drink_estado_pedido:
+    resource: "@DrinkBundle/Controller/EstadoPedidoController.php"
+    type:     annotation
+
+drink_pedido:
+    resource: "@DrinkBundle/Controller/PedidoController.php"
+    type:     annotation
+
+drink_detalle_pedido:
+    resource: "@DrinkBundle/Controller/DetallePedidoController.php"
+    type:     annotation
+
+drink_detalle_pedido:
+    resource: "@DrinkBundle/Controller/DetallePedidoController.php"
+    type:     annotation
+
+drink:
+    resource: "@DrinkBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

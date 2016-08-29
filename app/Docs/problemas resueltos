@@ -1,0 +1,11 @@
+eror generando crud de detallePedido
+
+ [Twig_Error_Runtime]
+  Key "idPedido" for array with keys "id, cantidad, subTotal" does not exist in "form/FormType.php.twig" at line 29
+
+  Res:
+
+vendor/sensio/generator-bundle/Resources/skeleton/form/FormType.php.twig
+
+on the line 29:
+  {%- if fields_mapping[field] is defined and fields_mapping[field]['type'] in ['date', 'time', 'datetime'] %}

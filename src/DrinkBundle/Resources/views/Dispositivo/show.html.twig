@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Dispositivo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dispositivo.id }}</td>
+            </tr>
+            <tr>
+                <th>Uuid</th>
+                <td>{{ dispositivo.uuid }}</td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td>{{ dispositivo.token }}</td>
+            </tr>
+            <tr>
+                <th>Esadministrador</th>
+                <td>{% if dispositivo.esAdministrador %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreate</th>
+                <td>{% if dispositivo.fechaCreate %}{{ dispositivo.fechaCreate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaupdate</th>
+                <td>{% if dispositivo.fechaUpdate %}{{ dispositivo.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Establoqueado</th>
+                <td>{% if dispositivo.estaBloqueado %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('dispositivo_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('dispositivo_edit', { 'id': dispositivo.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,19 @@
+drink_producto:
+    resource: "@DrinkBundle/Resources/config/routing/producto.yml"
+    prefix:   /producto
+
+drink_homepage:
+    path:     /
+    defaults: { _controller: DrinkBundle:Default:index }
+
+drink_categoria:
+    resource: "@DrinkBundle/Resources/config/routing/categoria.yml"
+    prefix:   /categoria
+
+drink_estado_pedido:
+    resource: "@DrinkBundle/Resources/config/routing/estadoPedido.yml"
+    prefix:   /estadoPedido
+
+drink_estado_pedido:
+    resource: "@DrinkBundle/Resources/config/routing/estadoPedido.yml"
+    prefix:   /estadoPedido

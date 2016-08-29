@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>DetallePedido</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ detallePedido.id }}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ detallePedido.cantidad }}</td>
+            </tr>
+            <tr>
+                <th>Subtotal</th>
+                <td>{{ detallePedido.subTotal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('detallepedido_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('detallepedido_edit', { 'id': detallePedido.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

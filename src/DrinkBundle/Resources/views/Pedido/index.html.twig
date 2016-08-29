@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Pedido list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numero</th>
+                <th>Fecha</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+                <th>Calle</th>
+                <th>Nro</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Telefono</th>
+                <th>Dirreferencia</th>
+                <th>Fechaupdate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pedido in pedidos %}
+            <tr>
+                <td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>
+                <td>{{ pedido.numero }}</td>
+                <td>{% if pedido.fecha %}{{ pedido.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ pedido.subTotal }}</td>
+                <td>{{ pedido.total }}</td>
+                <td>{{ pedido.calle }}</td>
+                <td>{{ pedido.nro }}</td>
+                <td>{{ pedido.latitud }}</td>
+                <td>{{ pedido.longitud }}</td>
+                <td>{{ pedido.telefono }}</td>
+                <td>{{ pedido.dirReferencia }}</td>
+                <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('pedido_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
