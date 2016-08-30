@@ -51,7 +51,7 @@ class Pedido
     private $total;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Dispositivo")
+     * @ORM\ManyToOne(targetEntity="Dispositivo")
      * @assert\NotBlank()
      */
     private $idDispositivo;
@@ -106,7 +106,7 @@ class Pedido
     private $fechaUpdate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EstadoPedido")
+     * @ORM\ManyToOne(targetEntity="EstadoPedido")
      * @assert\NotBlank()
      */
     private $estado;
