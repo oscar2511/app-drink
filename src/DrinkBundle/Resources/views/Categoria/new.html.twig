@@ -1,7 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'DrinkBundle::layout.html.twig' %}
+{% block page_title %}
+    Nueva Categoríaa
+{% endblock %}
 
-{% block body %}
-    <h1>Categoria creation</h1>
+{% block page_content %}
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

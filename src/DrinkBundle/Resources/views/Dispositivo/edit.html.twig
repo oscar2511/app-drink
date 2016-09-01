@@ -1,7 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'DrinkBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Dispositivo edit</h1>
+{% block page_title %}
+    Editar dispositivo
+{% endblock %}
+
+{% block page_content %}
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}

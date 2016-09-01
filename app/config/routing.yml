@@ -14,9 +14,6 @@ drink_detalle_pedido:
     resource: "@DrinkBundle/Controller/DetallePedidoController.php"
     type:     annotation
 
-drink_detalle_pedido:
-    resource: "@DrinkBundle/Controller/DetallePedidoController.php"
-    type:     annotation
 
 drink:
     resource: "@DrinkBundle/Resources/config/routing.yml"

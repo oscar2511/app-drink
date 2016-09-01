@@ -1,9 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'DrinkBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Pedido list</h1>
 
-    <table>
+{% block page_title %}
+    Pedidos
+{% endblock %}
+
+{% block page_content %}
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>

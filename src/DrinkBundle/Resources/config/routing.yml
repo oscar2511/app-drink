@@ -13,7 +13,3 @@ drink_categoria:
 drink_estado_pedido:
     resource: "@DrinkBundle/Resources/config/routing/estadoPedido.yml"
     prefix:   /estadoPedido
-
-drink_estado_pedido:
-    resource: "@DrinkBundle/Resources/config/routing/estadoPedido.yml"
-    prefix:   /estadoPedido

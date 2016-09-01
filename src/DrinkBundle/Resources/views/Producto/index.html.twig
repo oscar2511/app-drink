@@ -1,14 +1,12 @@
-{#% extends 'base.html.twig' %#}
-{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+{% extends 'DrinkBundle::layout.html.twig' %}
 
 {#% block body %#}
-{% block titchle %}
+{% block page_title %}
     Productos
 {% endblock %}
     {% block page_content %}
-    <h1>Producto list</h1>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>

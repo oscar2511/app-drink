@@ -1,7 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'DrinkBundle::layout.html.twig' %}
 
-{% block body %}
-    <h1>Producto creation</h1>
+{#% block body %#}
+{% block page_title %}
+    Nuevo producto
+{% endblock %}
+    {% block page_content %}
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -10,7 +13,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('producto_index') }}">Back to the list</a>
+            <a href="{{ path('producto_index') }}">Volver</a>
         </li>
     </ul>
 {% endblock %}
