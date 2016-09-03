@@ -28,7 +28,7 @@ class PedidoType extends AbstractType
             ->add('dirReferencia')
 
             ->add('fechaUpdate', 'datetime')
-            ->add('idDispositivo')
+            ->add('dispositivo')
             ->add('estado')
         ;
     }

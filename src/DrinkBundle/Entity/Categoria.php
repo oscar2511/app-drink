@@ -43,6 +43,13 @@ class Categoria
      */
     private $fechaUpdate;
 
+    /**
+     * @var \boolean
+     *
+     * @ORM\Column(name="estado", type="boolean")
+     */
+    private $estado;
+
 
     /**
      * Get id
@@ -125,6 +132,24 @@ class Categoria
     {
         return $this->fechaUpdate;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param boolean $estado
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    }
+
+
 
     public function __toString()
     {

@@ -54,7 +54,7 @@ class Pedido
      * @ORM\ManyToOne(targetEntity="Dispositivo")
      * @assert\NotBlank()
      */
-    private $idDispositivo;
+    private $dispositivo;
 
     /**
      * @var string
@@ -218,27 +218,27 @@ class Pedido
     }
 
     /**
-     * Set idDispositivo
+     * Set dispositivo
      *
-     * @param integer $idDispositivo
+     * @param integer $dispositivo
      *
      * @return Pedido
      */
-    public function setIdDispositivo($idDispositivo)
+    public function setDispositivo($dispositivo)
     {
-        $this->idDispositivo = $idDispositivo;
+        $this->dispositivo = $dispositivo;
 
         return $this;
     }
 
     /**
-     * Get idDispositivo
+     * Get dispositivo
      *
      * @return int
      */
-    public function getIdDispositivo()
+    public function getdispositivo()
     {
-        return $this->idDispositivo;
+        return $this->dispositivo;
     }
 
     /**

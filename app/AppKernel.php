@@ -19,6 +19,10 @@ class AppKernel extends Kernel
             new DrinkBundle\DrinkBundle(),
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Avanzu\AdminThemeBundle\AvanzuAdminThemeBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            new ApiBundle\ApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

@@ -27,7 +27,7 @@ class Producto
      * @ORM\ManyToOne(targetEntity="Categoria")
      * @assert\NotBlank()
      */
-    private $idCategoria;
+    private $categoria;
 
     /**
      * @var string
@@ -90,27 +90,27 @@ class Producto
     }
 
     /**
-     * Set idCategoria
+     * Set ctegoria
      *
-     * @param integer $idCategoria
+     * @param integer $categoria
      *
      * @return Producto
      */
-    public function setIdCategoria($idCategoria)
+    public function setCategoria($categoria)
     {
-        $this->idCategoria = $idCategoria;
+        $this->categoria = $categoria;
 
         return $this;
     }
 
     /**
-     * Get idCategoria
+     * Get categoria
      *
      * @return int
      */
-    public function getIdCategoria()
+    public function getcategoria()
     {
-        return $this->idCategoria;
+        return $this->categoria;
     }
 
     /**

@@ -1,3 +1,8 @@
+api:
+    resource: "@ApiBundle/Resources/config/routing.yml"
+    type: rest
+    prefix: /api
+
 drink_dispositivo:
     resource: "@DrinkBundle/Controller/DispositivoController.php"
     type:     annotation
@@ -9,11 +14,6 @@ drink_estado_pedido:
 drink_pedido:
     resource: "@DrinkBundle/Controller/PedidoController.php"
     type:     annotation
-
-drink_detalle_pedido:
-    resource: "@DrinkBundle/Controller/DetallePedidoController.php"
-    type:     annotation
-
 
 drink:
     resource: "@DrinkBundle/Resources/config/routing.yml"

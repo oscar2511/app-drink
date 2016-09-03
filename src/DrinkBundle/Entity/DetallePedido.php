@@ -23,16 +23,16 @@ class DetallePedido
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Pedido")
+     * @ORM\ManyToOne(targetEntity="Pedido")
      * @assert\NotBlank()
      */
-    private $idPedido;
+    private $pedido;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Producto")
+     * @ORM\ManyToOne(targetEntity="Producto")
      * @assert\NotBlank()
      */
-    private $idProducto;
+    private $producto;
 
     /**
      * @var int
@@ -60,51 +60,51 @@ class DetallePedido
     }
 
     /**
-     * Set idPedido
+     * Set pedido
      *
-     * @param integer $idPedido
+     * @param integer $pedido
      *
      * @return DetallePedido
      */
-    public function setIdPedido($idPedido)
+    public function setPedido($pedido)
     {
-        $this->idPedido = $idPedido;
+        $this->pedido = $pedido;
 
         return $this;
     }
 
     /**
-     * Get idPedido
+     * Get pedido
      *
      * @return int
      */
-    public function getIdPedido()
+    public function getPedido()
     {
-        return $this->idPedido;
+        return $this->pedido;
     }
 
     /**
-     * Set idProducto
+     * Set producto
      *
-     * @param integer $idProducto
+     * @param integer $producto
      *
      * @return DetallePedido
      */
-    public function setIdProducto($idProducto)
+    public function setProducto($producto)
     {
-        $this->idProducto = $idProducto;
+        $this->producto = $producto;
 
         return $this;
     }
 
     /**
-     * Get idProducto
+     * Get producto
      *
      * @return int
      */
-    public function getIdProducto()
+    public function getProducto()
     {
-        return $this->idProducto;
+        return $this->producto;
     }
 
     /**

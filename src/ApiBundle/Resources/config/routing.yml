@@ -1,0 +1,25 @@
+api_categorias:
+    resource: "@ApiBundle/Controller/CategoriasController.php"
+    type: rest
+    path: /categorias
+    #defaults: { _controller: ApiBundle:Default:index }
+
+api_dispositivos:
+    resource: "@ApiBundle/Controller/DispositivoController.php"
+    type: rest
+    path: /dispositivo
+
+api_productos:
+    resource: "@ApiBundle/Controller/ProductoController.php"
+    type: rest
+    path: /producto
+
+api_configuracion:
+    resource: "@ApiBundle/Controller/ConfiguracionController.php"
+    type: rest
+    path: /configuracion
+
+api_pedido:
+    resource: "@ApiBundle/Controller/PedidoController.php"
+    type: rest
+    path: /pedido
