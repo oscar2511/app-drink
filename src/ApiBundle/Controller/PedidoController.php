@@ -4,6 +4,7 @@ namespace ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use FOS\RestBundle\Controller\Annotations\Get;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use DrinkBundle\Entity\Dispositivo;
 use DrinkBundle\Entity\Pedido;
 use DrinkBundle\Entity\DetallePedido;
+use Symfony\Component\Security\Acl\Exception\Exception;
 
 class PedidoController extends FOSRestController
 {
@@ -34,8 +36,8 @@ class PedidoController extends FOSRestController
 
         $info = $request->getContent();
         $data = json_decode($info,true);
+        $em   = $this->getDoctrine()->getManager();
 
-        $em = $this->getDoctrine()->getManager();
         $disp = $em->getRepository('DrinkBundle:Dispositivo')->findOneBy(array(
             'uuid' => $data['dispositivo']['uuid']
         ));
@@ -46,43 +48,52 @@ class PedidoController extends FOSRestController
 
         $pedidoEntity = new Pedido();
 
-        $pedidoEntity->setNumero($data['numero']);
-        $pedidoEntity->setSubTotal($data['subTotal']);
-        $pedidoEntity->setTotal($data['total']);
-        $pedidoEntity->setFecha($fechaActual);
-        $pedidoEntity->setCalle($data['ubicacion']['direccion']['calle']);
-        $pedidoEntity->setNro($data['ubicacion']['direccion']['numero']);
-        $pedidoEntity->setLatitud($data['ubicacion']['coordenadas']['lat']);
-        $pedidoEntity->setLongitud($data['ubicacion']['coordenadas']['long']);
-        $pedidoEntity->setTelefono($data['ubicacion']['referencia']['tel']);
-        $pedidoEntity->setDirReferencia($data['ubicacion']['referencia']['dir_ref']);
-        $pedidoEntity->setDispositivo($disp);
-        $pedidoEntity->setEstado($estadoPedido);
-        $pedidoEntity->setFechaUpdate($fechaActual);
+        try {
+            $pedidoEntity->setNumero($data['numero']);
+            $pedidoEntity->setSubTotal($data['subTotal']);
+            $pedidoEntity->setTotal($data['total']);
+            $pedidoEntity->setFecha($fechaActual);
+            $pedidoEntity->setCalle($data['ubicacion']['direccion']['calle']);
+            $pedidoEntity->setNro($data['ubicacion']['direccion']['numero']);
+            $pedidoEntity->setLatitud($data['ubicacion']['coordenadas']['lat']);
+            $pedidoEntity->setLongitud($data['ubicacion']['coordenadas']['long']);
+            $pedidoEntity->setTelefono($data['ubicacion']['referencia']['tel']);
+            $pedidoEntity->setDirReferencia($data['ubicacion']['referencia']['dir_ref']);
+            $pedidoEntity->setDispositivo($disp);
+            $pedidoEntity->setEstado($estadoPedido);
+            $pedidoEntity->setFechaUpdate($fechaActual);
 
-        $em->persist($pedidoEntity);
-        $em->flush();
+            $em->persist($pedidoEntity);
 
-
-        /** insertar en la tabla detalle pedido */
-        for($i=1;$i<count($data['detalle']); $i++) {
-
-            $detallePedidoEntity = new DetallePedido();
-            $productoEntity = $em->getRepository('DrinkBundle:Producto')->findOneBy(array(
-                'id' => $data['detalle'][$i]['producto']['id']
+            /** insertar en la tabla detalle pedido */
+            for ($i = 1; $i < count($data['detalle']); $i++) {
+                $detallePedidoEntity = new DetallePedido();
+                $productoEntity = $em->getRepository('DrinkBundle:Producto')->findOneBy(array(
+                    'id' => $data['detalle'][$i]['producto']['id']
                 ));
 
-            $detallePedidoEntity->setCantidad($data['detalle'][$i]['cantidad']);
-            $detallePedidoEntity->setPedido($pedidoEntity);
-            $detallePedidoEntity->setSubTotal($data['detalle'][$i]['subTotal']);
-            $detallePedidoEntity->setProducto($productoEntity);
+                $detallePedidoEntity->setCantidad($data['detalle'][$i]['cantidad']);
+                $detallePedidoEntity->setPedido($pedidoEntity);
+                $detallePedidoEntity->setSubTotal($data['detalle'][$i]['subTotal']);
+                $detallePedidoEntity->setProducto($productoEntity);
 
-            $em->persist($detallePedidoEntity);
+                $em->persist($detallePedidoEntity);
+            }
+
             $em->flush();
+
+        }catch (Exception $e){
+            return new JsonResponse(array(
+                    "estado" => 400
+                )
+            );
         }
 
-
-        return array("Ok");
+        return new JsonResponse(array(
+                "estado"    => 200,
+                "id_pedido" => $pedidoEntity->getId()
+            )
+        );
     }
 
 
