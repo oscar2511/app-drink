@@ -34,26 +34,4 @@ class CategoriasController extends FOSRestController
         return array($categorias);
     }
 
-
-    /**
-     * Get a task by ID
-     * @param id
-     * @return array
-     *
-     * @View()
-     * @Get("/categoria/{id}",)
-     */
-    public function getTaskAction($id)
-    {
-        $em        = $this->getDoctrine()->getManager();
-        $categoria = $em->getRepository('DrinkBundle:Categoria')->findById($id);
-
-        return array('categ' =>$categoria);
-    }
-
-
-
-
-
-
 }

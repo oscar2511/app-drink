@@ -2,7 +2,6 @@ api_categorias:
     resource: "@ApiBundle/Controller/CategoriasController.php"
     type: rest
     path: /categorias
-    #defaults: { _controller: ApiBundle:Default:index }
 
 api_dispositivos:
     resource: "@ApiBundle/Controller/DispositivoController.php"

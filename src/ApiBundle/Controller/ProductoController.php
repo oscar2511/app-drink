@@ -14,21 +14,21 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use DrinkBundle\Entity\Dispositivo;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductoController extends FOSRestController
 {
 
-     /**
-     *
-     * @return object
+    /**
+     * Get todas los productos
+     * @return array
      *
      * @View()
-     * @Get("/producto")
+     * @Get("/productos")
      */
-    public function getProductoAction(){
-
-        $em = $this->getDoctrine()->getManager();
-
+    public function getProductoAction()
+    {
+        $em       = $this->getDoctrine()->getManager();
         $producto = $em->getRepository('DrinkBundle:Producto')->findAll();
 
         return array($producto);
@@ -60,110 +60,42 @@ class ProductoController extends FOSRestController
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
     /**
-     *
-     * @return object
-     *
-     * @View()
-     * @Get("/dispositivo/administradores")
-     */
-    public function getAdministradoresAction(){
-
-        $em = $this->getDoctrine()->getManager();
-
-        $dql = 'SELECT d
-                    FROM DrinkBundle:Dispositivo d
-                    WHERE d.esAdministrador = 1';
-
-        $consulta = $em->createQuery($dql);
-
-        return $consulta->getResult();
-
-
-        $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')->findAll();
-
-        return array($dispositivo);
-    }
-
-
-    /**
-     * Create a new Task
+     * Cambiar el estado de stock de un producto
      * @var Request $request
-     * @return View|array
+     * @return json
      *
      * @View()
-     * @Post("/dispositivo/uuid")
+     * @Post("/producto/cambiar-stock")
      */
-    public function getDispositivoByUuidAction( Request $request)
+    public function cambiarEstadoStockAction(Request $request)
     {
-        $fechaActual = new \DateTime("now");
+        $info = $request->getContent();
+        $data = json_decode($info,true);
+        $em   = $this->getDoctrine()->getManager();
 
-        $a = $request->request->all();
-        foreach($a as $key=>$value)
-            $datosDispositivo = json_decode($key);
-
-
-        $uuid  = $datosDispositivo->uuid;
-        $token = $datosDispositivo->token;
+        $producto = $em->getRepository('DrinkBundle:Producto')->find($data['idProducto']);
 
 
+        if(!$producto)
+            return new JsonResponse(array(
+                    "estado"  => 400,
+                    "mensaje" => "No se encontro el producto"
+                )
+            );
 
-        $em          = $this->getDoctrine()->getManager();
-        $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')
-            ->findOneBy(array('uuid' =>(int) $uuid));
+        $producto->setStock($data['stockCambio']);
 
-
-        if(!$dispositivo){
-            $dispositvoEntity = new Dispositivo();
-
-            $dispositvoEntity->setFechaCreate($fechaActual);
-            $dispositvoEntity->setToken($token);
-            $dispositvoEntity->setUuid($uuid);
-            $dispositvoEntity->setEsAdministrador(0);
-            $dispositvoEntity->setEstaBloqueado(0);
-
-            $em->persist($dispositvoEntity);
-            $em->flush();
-        }else {
-            $dispositivo->setToken(1234567);
-            $dispositivo->setFechaUpdate($fechaActual);
-            $em->persist($dispositivo);
-            $em->flush();
-
-            $dql = 'SELECT p
-                    FROM DrinkBundle:Pedido p
-                    JOIN p.dispositivo d
-                    WHERE p.dispositivo =:dis
-                    ORDER BY p.id DESC';
-
-            $consulta = $em->createQuery($dql);
-            $consulta->setParameter('dis', 1);
-
-            $consulta->setMaxResults(1);
-            return $consulta->getResult();
-
-        }
+        $em->persist($producto);
+        $em->flush();
+        return new JsonResponse(array(
+                "estado"  => 200,
+                "mensaje" => "OK"
+            )
+        );
 
 
 
-
-        return array($dispositivo);
     }
-
-
-
-
-
 
 }

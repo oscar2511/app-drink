@@ -19,13 +19,13 @@ class DispositivoController extends FOSRestController
 {
 
      /**
-     *
+     * get todos los dispositivos
      * @return object
      *
      * @View()
-     * @Get("/dispositivo")
+     * @Get("/dispositivos")
      */
-    public function getDispositivoAction(){
+    public function getDispositivosAction(){
 
         $em = $this->getDoctrine()->getManager();
 
@@ -41,10 +41,9 @@ class DispositivoController extends FOSRestController
      * @View()
      * @Get("/dispositivo/administradores")
      */
-    public function getAdministradoresAction(){
-
-        $em = $this->getDoctrine()->getManager();
-
+    public function getAdministradoresAction()
+    {
+        $em  = $this->getDoctrine()->getManager();
         $dql = 'SELECT d
                     FROM DrinkBundle:Dispositivo d
                     WHERE d.esAdministrador = 1';
@@ -52,16 +51,29 @@ class DispositivoController extends FOSRestController
         $consulta = $em->createQuery($dql);
 
         return $consulta->getResult();
-
-
-        $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')->findAll();
-
-        return array($dispositivo);
     }
 
 
     /**
-     * Create a new Task
+     * Get dispositivo por id
+     * @return object
+     *
+     * @View()
+     * @Get("/dispositivo/{id}")
+     */
+    public function getDispositivoAction($id){
+
+        $em = $this->getDoctrine()->getManager();
+
+        $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')->find($id);
+
+        return $dispositivo;
+
+    }
+
+
+    /**
+     * Registrar dispositivo y verificar si tiene pedidos
      * @var Request $request
      * @return View|array
      *
@@ -80,8 +92,6 @@ class DispositivoController extends FOSRestController
         $uuid  = $datosDispositivo->uuid;
         $token = $datosDispositivo->token;
 
-
-
         $em          = $this->getDoctrine()->getManager();
         $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')
             ->findOneBy(array('uuid' =>(int) $uuid));
@@ -99,7 +109,7 @@ class DispositivoController extends FOSRestController
             $em->persist($dispositvoEntity);
             $em->flush();
         }else {
-            $dispositivo->setToken(1234567);
+            $dispositivo->setToken($token);
             $dispositivo->setFechaUpdate($fechaActual);
             $em->persist($dispositivo);
             $em->flush();
@@ -112,13 +122,11 @@ class DispositivoController extends FOSRestController
 
             $consulta = $em->createQuery($dql);
             $consulta->setParameter('dis', 1);
-
             $consulta->setMaxResults(1);
+
             return $consulta->getResult();
 
         }
-
-
 
 
         return array($dispositivo);
