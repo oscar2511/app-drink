@@ -7,53 +7,89 @@
 
 {% block page_content %}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Numero</th>
-                <th>Fecha</th>
-                <th>Subtotal</th>
-                <th>Total</th>
-                <th>Calle</th>
-                <th>Nro</th>
-                <th>Latitud</th>
-                <th>Longitud</th>
-                <th>Telefono</th>
-                <th>Dirreferencia</th>
-                <th>Fechaupdate</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for pedido in pedidos %}
-            <tr>
-                <td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>
-                <td>{{ pedido.numero }}</td>
-                <td>{% if pedido.fecha %}{{ pedido.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ pedido.subTotal }}</td>
-                <td>{{ pedido.total }}</td>
-                <td>{{ pedido.calle }}</td>
-                <td>{{ pedido.nro }}</td>
-                <td>{{ pedido.latitud }}</td>
-                <td>{{ pedido.longitud }}</td>
-                <td>{{ pedido.telefono }}</td>
-                <td>{{ pedido.dirReferencia }}</td>
-                <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"> </h3>
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Buscar">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <i class="fa fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Fecha</th>
+                            <th>Subtotal</th>
+                            <th>Total</th>
+                            <th>Calle</th>
+                            <th>Nro</th>
+                            <th>Telefono</th>
+                            <th>Rerencia</th>
+                            <th>Actualizado</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for pedido in pedidos %}
+                            <tr>
+                                <td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>
+                                <td>{% if pedido.fecha %}{{ pedido.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td>{{ pedido.subTotal }}</td>
+                                <td>{{ pedido.total }}</td>
+                                <td>{{ pedido.calle }}</td>
+                                <td>{{ pedido.nro }}</td>
+                                <td>{{ pedido.telefono }}</td>
+                                <td>{{ pedido.dirReferencia }}</td>
+                                <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td>{% if pedido.estado == "Cerrado" %}
+                                        <label class="label label-primary">
+                                            {{ pedido.estado }}
+                                        </label>
+                                    {% endif %}
+                                    {% if pedido.estado == "Nuevo" %}
+                                    <label class="label label-success">
+                                        {{ pedido.estado }}
+                                    </label>
+                                    {% endif %}
+                                    {% if pedido.estado == "Cancelado" %}
+                                    <label class="label label-danger">
+                                        {{ pedido.estado }}
+                                    </label>
+                                    {% endif %}
+                                    {% if pedido.estado == "En camino" %}
+                                    <label class="label label-warning">
+                                        {{ pedido.estado }}
+                                    </label>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">show</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">edit</a>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <ul>
         <li>
