@@ -28,8 +28,13 @@ class PedidoController extends Controller
 
         $pedidos = $em->getRepository('DrinkBundle:Pedido')->findAll();
 
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate( $pedidos,
+            $this->get('request')->query->get('page', 1),2
+        );
+
         return $this->render('DrinkBundle:Pedido:index.html.twig', array(
-            'pedidos' => $pedidos,
+            'pedidos' => $pagination,
         ));
     }
 

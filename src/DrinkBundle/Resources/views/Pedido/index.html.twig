@@ -4,6 +4,13 @@
 {% block page_title %}
     Pedidos
 {% endblock %}
+ {% block avanzu_breadcrumb %}
+     <ol class="breadcrumb">
+         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+         <li><a href="#">UI</a></li>
+         <li class="active">General</li>
+     </ol>
+ {% endblock %}
 
 {% block page_content %}
 
@@ -26,7 +33,7 @@
                     <table class="table table-hover">
                         <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Nro.</th>
                             <th>Fecha</th>
                             <th>Subtotal</th>
                             <th>Total</th>
@@ -43,14 +50,14 @@
                         {% for pedido in pedidos %}
                             <tr>
                                 <td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>
-                                <td>{% if pedido.fecha %}{{ pedido.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td>{% if pedido.fecha %}{{ pedido.fecha|date('d-m H:i') }}{% endif %}</td>
                                 <td>{{ pedido.subTotal }}</td>
                                 <td>{{ pedido.total }}</td>
                                 <td>{{ pedido.calle }}</td>
                                 <td>{{ pedido.nro }}</td>
                                 <td>{{ pedido.telefono }}</td>
                                 <td>{{ pedido.dirReferencia }}</td>
-                                <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                                <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('d-m H:i') }}{% endif %}</td>
                                 <td>{% if pedido.estado == "Cerrado" %}
                                         <label class="label label-primary">
                                             {{ pedido.estado }}
@@ -75,7 +82,7 @@
                                 <td>
                                     <ul>
                                         <li>
-                                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">show</a>
+                                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">Ver</a>
                                         </li>
                                         <li>
                                             <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">edit</a>
@@ -86,6 +93,9 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <div class="paginacion">
+                        {{ knp_pagination_render(pedidos) }}
+                    </div>
                 </div>
             </div>
         </div>
