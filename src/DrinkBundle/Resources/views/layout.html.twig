@@ -2,7 +2,10 @@
 
  {%  block javascripts_head %}
      {{ parent() }}
-     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+     <script type="text/javascript" src="{{ asset('bundles/drink/js/angular-1.5.8/angular.js') }}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/drink/drink/angular/main.js')}}"></script>
+     <script type="text/javascript" src="{{ asset('bundles/drink/drink/angular/controllers/pedidoController.js')}}"></script>
  {% endblock  %}
 
 

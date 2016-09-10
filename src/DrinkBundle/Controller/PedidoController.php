@@ -30,7 +30,7 @@ class PedidoController extends Controller
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate( $pedidos,
-            $this->get('request')->query->get('page', 1),2
+            $this->get('request')->query->get('page', 1),5
         );
 
         return $this->render('DrinkBundle:Pedido:index.html.twig', array(

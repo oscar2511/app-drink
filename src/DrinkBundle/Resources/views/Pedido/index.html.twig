@@ -4,21 +4,28 @@
 {% block page_title %}
     Pedidos
 {% endblock %}
- {% block avanzu_breadcrumb %}
-     <ol class="breadcrumb">
-         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-         <li><a href="#">UI</a></li>
-         <li class="active">General</li>
-     </ol>
- {% endblock %}
+{% block avanzu_breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Pedidos</a></li>
+    </ol>
+{% endblock %}
+
+
 
 {% block page_content %}
+    <div class="col-xs-8">
+        <br>
+    </div>
 
-    <div class="row">
-        <div class="col-xs-12">
+    <div class="row" >
+        <div class="col-xs-12" ng-controller="pedidoController">
+            {% verbatim %}
+            {{ test }}
+            {% endverbatim %}
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title"> </h3>
+                    <h3 class="box-title">Listado de pedidos </h3>
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
                             <input type="text" name="table_search" class="form-control pull-right" placeholder="Buscar">
@@ -30,20 +37,17 @@
                     </div>
                 </div>
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover">
+                    <table class="table table-striped">
                         <thead>
                         <tr>
                             <th>Nro.</th>
                             <th>Fecha</th>
-                            <th>Subtotal</th>
                             <th>Total</th>
                             <th>Calle</th>
                             <th>Nro</th>
-                            <th>Telefono</th>
-                            <th>Rerencia</th>
                             <th>Actualizado</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>Ver</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -51,12 +55,9 @@
                             <tr>
                                 <td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>
                                 <td>{% if pedido.fecha %}{{ pedido.fecha|date('d-m H:i') }}{% endif %}</td>
-                                <td>{{ pedido.subTotal }}</td>
-                                <td>{{ pedido.total }}</td>
+                                <td>$ {{ pedido.total }}</td>
                                 <td>{{ pedido.calle }}</td>
                                 <td>{{ pedido.nro }}</td>
-                                <td>{{ pedido.telefono }}</td>
-                                <td>{{ pedido.dirReferencia }}</td>
                                 <td>{% if pedido.fechaUpdate %}{{ pedido.fechaUpdate|date('d-m H:i') }}{% endif %}</td>
                                 <td>{% if pedido.estado == "Cerrado" %}
                                         <label class="label label-primary">
@@ -79,24 +80,17 @@
                                     </label>
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <ul>
-                                        <li>
-                                            <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">Ver</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">edit</a>
-                                        </li>
-                                    </ul>
+                                <td align="">
+                                    <a href="{{ path('pedido_show', { 'id': pedido.id }) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-                    <div class="paginacion">
-                        {{ knp_pagination_render(pedidos) }}
-                    </div>
                 </div>
+            </div>
+            <div class="paginacion">
+                {{ knp_pagination_render(pedidos) }}
             </div>
         </div>
     </div>
