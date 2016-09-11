@@ -1,0 +1,100 @@
+{% extends 'DrinkBundle::layout.html.twig' %}
+
+
+{% block page_title %}
+    Vista General
+{% endblock %}
+{% block avanzu_breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Pedidos</a></li>
+    </ol>
+{% endblock %}
+
+
+{% block page_content %}
+    <section ng-controller="dashboardController">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>$3544</h3>
+
+                    <p>Total semanal</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-money"></i>
+                </div>
+                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>824</h3>
+                    <p>Dispositivos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-mobile"></i>
+                </div>
+                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>764</h3>
+
+                    <p>Ventas concretadas</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>65</h3>
+
+                    <p>Ventas canceladas</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+<br>
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="box box-green">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Ventas de última semana </h3>
+                    <br>
+                    <div class="box-tools">
+
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <canvas id="line" class="chart chart-line" chart-data="data"
+                            chart-labels="labels" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock %}

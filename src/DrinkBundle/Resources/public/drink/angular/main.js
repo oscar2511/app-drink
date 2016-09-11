@@ -5,7 +5,8 @@
 
     angular
         .module('drink',[
-            'drink.Controllers'
+            'drink.Controllers',
+            'chart.js'
         ]);
 
     angular.module('drink.Controllers',[]);

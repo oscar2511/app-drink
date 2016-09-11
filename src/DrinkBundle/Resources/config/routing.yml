@@ -4,7 +4,7 @@ drink_producto:
 
 drink_homepage:
     path:     /
-    defaults: { _controller: DrinkBundle:Pedido:index }
+    defaults: { _controller: DrinkBundle:Dashboard:index }
 
 drink_categoria:
     resource: "@DrinkBundle/Resources/config/routing/categoria.yml"

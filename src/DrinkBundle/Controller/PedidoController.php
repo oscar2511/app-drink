@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use DrinkBundle\Entity\Pedido;
 use DrinkBundle\Form\PedidoType;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Pedido controller.
  *
@@ -16,6 +16,11 @@ use DrinkBundle\Form\PedidoType;
  */
 class PedidoController extends Controller
 {
+
+
+
+
+
     /**
      * Lists all Pedido entities.
      *
@@ -26,7 +31,7 @@ class PedidoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findAll();
+        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findBy(array(),array('id'=>'DESC'));
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate( $pedidos,
@@ -74,9 +79,20 @@ class PedidoController extends Controller
     {
         $deleteForm = $this->createDeleteForm($pedido);
 
+
+        $em = $this->getDoctrine()->getManager();
+
+        $detallePedido = $em->getRepository('DrinkBundle:DetallePedido')
+            ->findBy(array(
+                'pedido' => $pedido
+            ));
+
+        //var_dump($detallePedido); die;
+
         return $this->render('DrinkBundle:Pedido:show.html.twig', array(
-            'pedido' => $pedido,
-            'delete_form' => $deleteForm->createView(),
+            'pedido'         => $pedido,
+            'detallesPedido' => $detallePedido,
+            'delete_form'    => $deleteForm->createView(),
         ));
     }
 
@@ -142,4 +158,49 @@ class PedidoController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Lists all Pedido entities.
+     *
+     * @Route("/ajax/cambiar-estado/", name="pedido_cambiar_estado")
+     * @Method("POST")
+     */
+    public function ajaxCambiarEstadoAction(Request $request)
+    {
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+
+            $a = $request->request->all();
+            foreach ($a as $key => $value)
+                $datosDispositivo = json_decode($key);
+
+            $estado = $em->getRepository('DrinkBundle:EstadoPedido')
+                ->find($datosDispositivo->estado);
+
+            $pedido = $em->getRepository('DrinkBundle:Pedido')
+                ->find($datosDispositivo->idPedido);
+
+            $pedido->setEstado($estado);
+
+            $em->persist($pedido);
+            $em->flush();
+
+            return new JsonResponse(array(
+                    "estado"       => 200,
+                    "mensaje"      => "OK",
+                    "nuevo_estado" => $estado->getNombre()
+                )
+            );
+
+        } catch (\Exception $e) {
+            return new JsonResponse(array(
+                    "estado" => 400,
+                    "mensaje" => "Error"
+                )
+            );
+        }
+    }
+
+
 }
