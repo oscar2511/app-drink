@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DrinkBundle\Entity\Producto;
 use DrinkBundle\Form\ProductoType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Producto controller.
@@ -22,10 +23,15 @@ class ProductoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $productos = $em->getRepository('DrinkBundle:Producto')->findAll();
+        $productos = $em->getRepository('DrinkBundle:Producto')->findBy(array(),array('id'=>'DESC'));
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate( $productos,
+            $this->get('request')->query->get('page', 1),5
+        );
 
         return $this->render('DrinkBundle:Producto:index.html.twig', array(
-            'productos' => $productos,
+            'productos' => $pagination,
         ));
     }
 
@@ -68,28 +74,53 @@ class ProductoController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Producto entity.
+     * Editar producto
      *
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, Producto $producto)
+    public function editAction($id)
     {
-        $deleteForm = $this->createDeleteForm($producto);
-        $editForm = $this->createForm(new ProductoType(), $producto);
-        $editForm->handleRequest($request);
+        $em       = $this->getDoctrine()->getManager();
+        $producto = $em->getRepository('DrinkBundle:Producto')->find((int) $id);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($producto);
-            $em->flush();
-
-            return $this->redirectToRoute('producto_edit', array('id' => $producto->getId()));
-        }
+        $categorias = $em->getRepository('DrinkBundle:Categoria')->findAll();
 
         return $this->render('DrinkBundle:Producto:edit.html.twig', array(
-            'producto' => $producto,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'producto'   => $producto,
+            'categorias' => $categorias
         ));
+    }
+
+
+    public function editAjaxAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $productoData = $request->request->all();
+        //var_dump($a['nombre']); die;
+
+        $producto = $em->getRepository('DrinkBundle:Producto')->find((int) $productoData['id']);
+        $categoria = $em->getRepository('DrinkBundle:Categoria')->find($productoData['categoria']);
+
+
+        $producto->setCategoria($categoria);
+        $producto->setNombre($productoData['nombre']);
+        $producto->setPrecio($productoData['precio']);
+        $producto->setDescripcion($productoData['descripcion']);
+        $producto->setStock($productoData['stock']);
+
+        $em->persist($producto);
+        $em->flush();
+
+        return new JsonResponse(array(
+                "estado"       => 200,
+                "mensaje"      => "OK"
+            )
+        );
+
+
+
     }
 
     /**

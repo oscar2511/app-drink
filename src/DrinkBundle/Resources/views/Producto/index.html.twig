@@ -1,22 +1,47 @@
 {% extends 'DrinkBundle::layout.html.twig' %}
 
-{#% block body %#}
+
 {% block page_title %}
     Productos
 {% endblock %}
-    {% block page_content %}
+{% block avanzu_breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Productos</a></li>
+    </ol>
+{% endblock %}
 
-    <table class="table table-striped">
-        <thead>
+
+
+{% block page_content %}
+    <div class="col-xs-8">
+        <br>
+    </div>
+<div class="row" >
+    <div class="col-xs-10">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Listado de pedidos </h3>
+                <div class="box-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Buscar">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped">
+                    <thead>
             <tr>
                 <th>Id</th>
                 <th>Categoria</th>
                 <th>Nombre</th>
                 <th>Precio</th>
-                <th>Descripcion</th>
                 <th>Stock</th>
-                <th>Urlimagen</th>
-                <th>Fechaupdate</th>
+                <th>Fecha actualizado</th>
                 <th>Estado</th>
                 <th>Actions</th>
             </tr>
@@ -28,10 +53,8 @@
                 <td>{{ producto.categoria }}</td>
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.precio }}</td>
-                <td>{{ producto.descripcion }}</td>
                 <td>{{ producto.stock }}</td>
-                <td>{{ producto.urlImagen }}</td>
-                <td>{% if producto.fechaUpdate %}{{ producto.fechaUpdate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if producto.fechaUpdate %}{{ producto.fechaUpdate|date('d-m-Y') }}{% endif %}</td>
                 <td>{% if producto.estado %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <ul>
@@ -46,11 +69,18 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+                </table>
+            </div>
+        </div>
+        <div class="paginacion">
+            {{ knp_pagination_render(productos) }}
+        </div>
+    </div>
+</div>
 
     <ul>
         <li>
-            <a href="{{ path('producto_new') }}">Create a new entry</a>
+            <a href="{{ path('pedido_new') }}">Crear nuevo producto</a>
         </li>
     </ul>
 {% endblock %}

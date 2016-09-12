@@ -22,3 +22,8 @@ producto_delete:
     path:     /{id}/delete
     defaults: { _controller: "DrinkBundle:Producto:delete" }
     methods:  DELETE
+
+producto_edit_ajax:
+    path:     /ajax/editar
+    defaults: { _controller: "DrinkBundle:Producto:editAjax" }
+

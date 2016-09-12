@@ -20,10 +20,33 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findAll();
+        $countDispositivos = $em->createQuery('SELECT COUNT(d.id) FROM
+                                          DrinkBundle:Dispositivo d
+                                           WHERE d.estaBloqueado=0')
+                            ->getSingleScalarResult();
 
+        $sumaVentas = $em->createQuery('SELECT SUM (p.total) FROM
+                        DrinkBundle:Pedido p
+                        WHERE p.estado=4')
+                    ->getSingleScalarResult();
+
+        $ventasConcretadas = $em->createQuery('SELECT COUNT(p.id) FROM
+                                          DrinkBundle:Pedido p
+                                           WHERE p.estado=4')
+            ->getSingleScalarResult();
+
+        $ventasCanceladas = $em->createQuery('SELECT COUNT(p.id) FROM
+                                          DrinkBundle:Pedido p
+                                           WHERE p.estado=3')
+            ->getSingleScalarResult();
+
+
+        //$pedidos = $em->getRepository('DrinkBundle:Pedido')->findAll();
         return $this->render('DrinkBundle:Dashboard:index.html.twig', array(
-            'pedidos' => $pedidos,
+            'dispositivos'      => $countDispositivos,
+            'ventasTotal'       => $sumaVentas,
+            'ventasConcretadas' => $ventasConcretadas,
+            'ventasCanceladas'  => $ventasCanceladas
         ));
     }
 

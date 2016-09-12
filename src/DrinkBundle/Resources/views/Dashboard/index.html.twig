@@ -13,13 +13,14 @@
 
 
 {% block page_content %}
+    <br>
     <section ng-controller="dashboardController">
     <div class="row">
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>$3544</h3>
+                    <h3>$ {{ ventasTotal }}</h3>
 
                     <p>Total semanal</p>
                 </div>
@@ -33,7 +34,7 @@
             <!-- small box -->
             <div class="small-box bg-aqua">
                 <div class="inner">
-                    <h3>824</h3>
+                    <h3>{{ dispositivos }}</h3>
                     <p>Dispositivos</p>
                 </div>
                 <div class="icon">
@@ -47,12 +48,12 @@
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3>764</h3>
+                    <h3>{{ ventasConcretadas }}</h3>
 
                     <p>Ventas concretadas</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
+                    <i class="fa fa-check-circle"></i>
                 </div>
                 <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -64,12 +65,12 @@
             <!-- small box -->
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{ ventasCanceladas }}</h3>
 
                     <p>Ventas canceladas</p>
                 </div>
                 <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
+                    <i class="fa fa-close"></i>
                 </div>
                 <a href="#" class="small-box-footer">Más info <i class="fa fa-arrow-circle-right"></i></a>
             </div>
@@ -95,6 +96,25 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4">
+            <p class="text-center">
+                <strong>Estados actuales(última semana)</strong>
+            </p>
+
+            <canvas id="doughnut" class="chart chart-doughnut"
+                    chart-data="dataEstado" chart-labels="labelsEstado">
+            </canvas>
+            <p class="text-center">
+                <strong>Productos más vendidos</strong>
+            </p>
+            <canvas id="doughnut" class="chart chart-pie"
+                    chart-data="dataEstado" chart-labels="labelsEstado">
+            </canvas>
+            <!-- /.progress-group -->
+        </div>
+
+
     </div>
     </section>
 {% endblock %}
