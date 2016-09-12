@@ -23,7 +23,7 @@ class ProductoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $productos = $em->getRepository('DrinkBundle:Producto')->findBy(array(),array('id'=>'DESC'));
+        $productos = $em->getRepository('DrinkBundle:Producto')->findBy(array(),array('categoria'=>'ASC'));
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate( $productos,
@@ -32,30 +32,6 @@ class ProductoController extends Controller
 
         return $this->render('DrinkBundle:Producto:index.html.twig', array(
             'productos' => $pagination,
-        ));
-    }
-
-    /**
-     * Creates a new Producto entity.
-     *
-     */
-    public function newAction(Request $request)
-    {
-        $producto = new Producto();
-        $form = $this->createForm(new ProductoType(), $producto);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($producto);
-            $em->flush();
-
-            return $this->redirectToRoute('producto_show', array('id' => $producto->getId()));
-        }
-
-        return $this->render('DrinkBundle:Producto:new.html.twig', array(
-            'producto' => $producto,
-            'form' => $form->createView(),
         ));
     }
 
@@ -93,31 +69,95 @@ class ProductoController extends Controller
     }
 
 
+    /**
+     * Creates a new Producto entity.
+     *
+     */
+    public function newAction()
+    {
+        $em           = $this->getDoctrine()->getManager();
+        $categorias = $em->getRepository('DrinkBundle:Categoria')->findAll();
+
+        return $this->render('DrinkBundle:Producto:new.html.twig', array(
+            'categorias' => $categorias
+        ));
+
+    }
+
+
+    public function newAjaxAction(Request $request)
+    {
+        try{
+            $fechaActual = new \DateTime("now");
+            $em           = $this->getDoctrine()->getManager();
+            $productoData = $request->request->all();
+
+            $producto = new Producto();
+            $categoria = $em->getRepository('DrinkBundle:Categoria')->find($productoData['categoria']);
+
+            $producto->setCategoria($categoria);
+            $producto->setNombre($productoData['nombre']);
+            $producto->setPrecio($productoData['precio']);
+            $producto->setDescripcion($productoData['descripcion']);
+            $producto->setFechaUpdate($fechaActual);
+            $producto->setStock($productoData['stock']);
+
+            $em->persist($producto);
+            $em->flush();
+
+            return new JsonResponse(array(
+                    "estado" => 200,
+                    "mensaje" => "OK"
+                )
+            );
+            }catch(\Exception $e){
+                return new JsonResponse(array(
+                    "estado" => 400,
+                    "mensaje" => "ERROR"
+                    )
+                );
+            }
+    }
+
+
+    /**
+     * Editar producto
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function editAjaxAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        try {
+            $fechaActual = new \DateTime("now");
+            $em = $this->getDoctrine()->getManager();
+            $productoData = $request->request->all();
 
-        $productoData = $request->request->all();
-        //var_dump($a['nombre']); die;
-
-        $producto = $em->getRepository('DrinkBundle:Producto')->find((int) $productoData['id']);
-        $categoria = $em->getRepository('DrinkBundle:Categoria')->find($productoData['categoria']);
+            $producto = $em->getRepository('DrinkBundle:Producto')->find((int)$productoData['id']);
+            $categoria = $em->getRepository('DrinkBundle:Categoria')->find($productoData['categoria']);
 
 
-        $producto->setCategoria($categoria);
-        $producto->setNombre($productoData['nombre']);
-        $producto->setPrecio($productoData['precio']);
-        $producto->setDescripcion($productoData['descripcion']);
-        $producto->setStock($productoData['stock']);
+            $producto->setCategoria($categoria);
+            $producto->setNombre($productoData['nombre']);
+            $producto->setPrecio($productoData['precio']);
+            $producto->setDescripcion($productoData['descripcion']);
+            $producto->setStock($productoData['stock']);
+            $producto->setFechaUpdate($fechaActual);
 
-        $em->persist($producto);
-        $em->flush();
+            $em->persist($producto);
+            $em->flush();
 
-        return new JsonResponse(array(
-                "estado"       => 200,
-                "mensaje"      => "OK"
-            )
-        );
+            return new JsonResponse(array(
+                    "estado" => 200,
+                    "mensaje" => "OK"
+                )
+            );
+        }catch(\Exception $e){
+            return new JsonResponse(array(
+                    "estado" => 400,
+                    "mensaje" => "ERROR"
+                )
+            );
+        }
 
 
 

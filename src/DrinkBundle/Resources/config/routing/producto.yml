@@ -27,3 +27,7 @@ producto_edit_ajax:
     path:     /ajax/editar
     defaults: { _controller: "DrinkBundle:Producto:editAjax" }
 
+producto_crear_ajax:
+    path:     /ajax/crear
+    defaults: { _controller: "DrinkBundle:Producto:newAjax" }
+

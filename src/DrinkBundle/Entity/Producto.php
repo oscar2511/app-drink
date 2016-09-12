@@ -46,7 +46,7 @@ class Producto
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="string", length=255)
+     * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
      */
     private $descripcion;
 
@@ -60,21 +60,21 @@ class Producto
     /**
      * @var string
      *
-     * @ORM\Column(name="urlImagen", type="string", length=255)
+     * @ORM\Column(name="urlImagen", type="string", nullable=true, length=255)
      */
     private $urlImagen;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fechaUpdate", type="datetime")
+     * @ORM\Column(name="fechaUpdate", type="datetime", nullable=true)
      */
     private $fechaUpdate;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="estado", type="boolean")
+     * @ORM\Column(name="estado", type="boolean", nullable=true)
      */
     private $estado;
 

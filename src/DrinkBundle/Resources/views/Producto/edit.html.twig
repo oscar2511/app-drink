@@ -8,7 +8,7 @@
 {% block page_content %}
     <br>
 
-<section ng-controller="productoController">
+<section ng-controller="productoController" ng-cloak="">
 <div class="row" ng-init="setProducto(' {{producto.id}}','{{producto.categoria.id}}','{{producto.nombre}}','{{producto.precio}}','{{producto.descripcion}}','{{producto.stock }}')">
     <div class="col-xs-8">
         <div class="box box-primary">
@@ -69,9 +69,13 @@
                     </div>
                 </div>
                 <!-- /.box-body -->
-
                 <div class="box-footer">
-                    <button ng-click="editarProducto(formEditarProducto)" ng-disabled="formEditarProducto.$invalid" type="submit" class="btn btn-primary">Editar</button>
+                    <button class="btn btn-default">Cancelar</button>
+                    <button ng-show="!mostrarLoader" ng-click="editarProducto(formEditarProducto)" ng-disabled="formEditarProducto.$invalid" type="submit" class="btn btn-primary">Editar</button>
+                    <div ng-show="mostrarLoader" class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <label ng-show="mostrarExito"><p class="text-green"> <i class="fa fa-check "></i> Se editó el producto</p></label>
                 </div>
             </form>
         </div>
