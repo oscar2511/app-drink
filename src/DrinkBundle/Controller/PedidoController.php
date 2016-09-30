@@ -17,10 +17,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class PedidoController extends Controller
 {
 
-
-
-
-
     /**
      * Lists all Pedido entities.
      *

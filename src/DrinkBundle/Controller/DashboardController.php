@@ -19,10 +19,39 @@ class DashboardController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $fechaActual = date_format(new \DateTime("now"), 'Y-m-d');
+
+        $fechaSemana    = strtotime ( '-7 day' , strtotime ( $fechaActual ) ) ;
+        $fechaDosSemana = strtotime ( '-14 day' , strtotime ( $fechaActual ) ) ;
+
+        $fechaUnaSemana = date_format(new \DateTime('@'.$fechaSemana),'Y-m-d');
+        $fechaDosSemana = date_format(new \DateTime('@'.$fechaDosSemana),'Y-m-d');
+
+
+        $q = $em->createQueryBuilder()
+            ->select('p')
+            ->from('DrinkBundle:Pedido', 'p')
+            ->where('p.fecha <= :fechaActual')
+            ->andWhere('p.fecha >= :fechaUnaSemana')
+            ->andWhere('p.estado =4')
+            ->setParameter('fechaActual', $fechaActual)
+            ->setParameter('fechaUnaSemana', $fechaDosSemana)
+            ->getQuery()
+            ->getResult();
+
+        $datosUnaSemana = array();
+        foreach($q as $value) {
+            $datosUnaSemana['fecha'] = date_format($value->getFecha(), 'd-m-Y');
+            $datosUnaSemana['total'] = $value->getTotal();
+        }
+
+            //var_dump($datosUnaSemana);
+
+        // die;
 
         $countDispositivos = $em->createQuery('SELECT COUNT(d.id) FROM
                                           DrinkBundle:Dispositivo d
-                                           WHERE d.estaBloqueado=0')
+                                          ')
                             ->getSingleScalarResult();
 
         $sumaVentas = $em->createQuery('SELECT SUM (p.total) FROM
