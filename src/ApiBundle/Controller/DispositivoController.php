@@ -84,18 +84,23 @@ class DispositivoController extends FOSRestController
     {
         $fechaActual = new \DateTime("now");
 
-        $a = $request->request->all();
-        foreach($a as $key=>$value)
-            $datosDispositivo = json_decode($key);
+        // $a = $request->request->all();
+
+        $info = $request->getContent();
+        $data = json_decode($info,true);
+
+//        foreach($a as $key=>$value)
+        //          $datosDispositivo = json_decode($key);
 
 
-        $uuid  = $datosDispositivo->uuid;
-        $token = $datosDispositivo->token;
+        //    $uuid  = $datosDispositivo->uuid;
+        //  $token = $datosDispositivo->token;
+        $uuid  = $data['uuid'];
+        $token = $data['token'];
 
         $em          = $this->getDoctrine()->getManager();
         $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')
             ->findOneBy(array('uuid' =>(int) $uuid));
-
 
         if(!$dispositivo){
             $dispositvoEntity = new Dispositivo();
@@ -108,6 +113,7 @@ class DispositivoController extends FOSRestController
 
             $em->persist($dispositvoEntity);
             $em->flush();
+
         }else {
             $dispositivo->setToken($token);
             $dispositivo->setFechaUpdate($fechaActual);
