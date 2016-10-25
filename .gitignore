@@ -1,0 +1,25 @@
+# Symfony directories
+*/logs/*
+*/cache/*
+*/spool/*
+web/uploads/*
+web/resources/*
+nbproject/*
+.idea/
+idea/
+vendor/*
+web/css/*
+web/js/*
+
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+web/app.php
+app/logs/
+app/cache/
+app/spool/
+app/var/
+vendor/
+web/uploads/
+web/bundles/

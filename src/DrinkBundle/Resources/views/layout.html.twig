@@ -1,7 +1,6 @@
 {% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
 
  {%  block javascripts_head %}
-     {{ parent() }}
 
      <script type="text/javascript" src="{{ asset('bundles/drink/js/angular-1.5.8/angular.js') }}"></script>
      <script type="text/javascript" src="{{ asset('bundles/drink/drink/angular/main.js')}}"></script>
@@ -10,6 +9,7 @@
      <script type="text/javascript" src="{{ asset('bundles/drink/drink/angular/controllers/dashboardController.js')}}"></script>
      <script type="text/javascript" src="{{ asset('bundles/drink/js/angular-1.5.8/angular-chart.js/node_modules/chart.js/dist/Chart.min.js') }}"></script>
      <script type="text/javascript" src="{{ asset('bundles/drink/js/angular-1.5.8/angular-chart.js/angular-chart.js') }}"></script>
+   {{ parent() }}
 
  {% endblock  %}
 
