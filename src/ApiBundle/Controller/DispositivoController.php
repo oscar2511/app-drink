@@ -84,18 +84,15 @@ class DispositivoController extends FOSRestController
     {
         $fechaActual = new \DateTime("now");
 
-        $a = $request->request->all();
-        foreach($a as $key=>$value)
-            $datosDispositivo = json_decode($key);
+       $info = $request->getContent();
+       $data = json_decode($info,true);
 
-
-        $uuid  = $datosDispositivo->uuid;
-        $token = $datosDispositivo->token;
+        $uuid  = $data['uuid'];
+        $token = $data['token'];
 
         $em          = $this->getDoctrine()->getManager();
         $dispositivo = $em->getRepository('DrinkBundle:Dispositivo')
             ->findOneBy(array('uuid' =>(int) $uuid));
-
 
         if(!$dispositivo){
             $dispositvoEntity = new Dispositivo();
@@ -120,14 +117,14 @@ class DispositivoController extends FOSRestController
                     WHERE p.dispositivo =:dis
                     ORDER BY p.id DESC';
 
+
             $consulta = $em->createQuery($dql);
-            $consulta->setParameter('dis', 1);
+            $consulta->setParameter('dis', $dispositivo);
             $consulta->setMaxResults(1);
 
-            return $consulta->getResult();
+            return array($consulta->getSingleResult());
 
         }
-
 
         return array($dispositivo);
     }

@@ -35,7 +35,7 @@ class PedidoController extends FOSRestController
 
         $em = $this->getDoctrine()->getManager();
 
-        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findAll();
+        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findBy(array(),array('id'=>'DESC'));
 
         return ($pedidos);
     }
@@ -51,9 +51,12 @@ class PedidoController extends FOSRestController
 
         $em = $this->getDoctrine()->getManager();
 
-        $pedidos = $em->getRepository('DrinkBundle:Pedido')->findBy(array(
-            'estado' => $estado
-        ));
+        $pedidos = $em->getRepository('DrinkBundle:Pedido')
+	->findBy(array(
+            	  'estado' => $estado),
+		array(
+		  'id' => 'DESC')
+	);
 
         return ($pedidos);
     }
@@ -134,6 +137,8 @@ class PedidoController extends FOSRestController
 
         $info = $request->getContent();
         $data = json_decode($info,true);
+
+//var_dump($data);die;
         $em   = $this->getDoctrine()->getManager();
 
         $disp = $em->getRepository('DrinkBundle:Dispositivo')->findOneBy(array(
