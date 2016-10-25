@@ -105,6 +105,7 @@ class DispositivoController extends FOSRestController
 
             $em->persist($dispositvoEntity);
             $em->flush();
+
         }else {
             $dispositivo->setToken($token);
             $dispositivo->setFechaUpdate($fechaActual);
